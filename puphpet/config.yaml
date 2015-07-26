@@ -4,20 +4,20 @@ vagrantfile:
         box: puphpet/ubuntu1404-x64
         box_url: puphpet/ubuntu1404-x64
         hostname: sages.local
-        memory: '2048'
+        memory: '1024'
         cpus: '1'
         chosen_provider: virtualbox
         network:
             private_network: 192.168.56.101
             forwarded_port:
-                vflnp_oc6u419jeuq0:
-                    host: '6957'
+                vflnp_0kqcx4pztexr:
+                    host: '5795'
                     guest: '22'
         post_up_message: ''
         provider:
             virtualbox:
                 modifyvm:
-                    natdnshostresolver1: on
+                    natdnshostresolver1: 'on'
                 showgui: '0'
             vmware:
                 numvcpus: 1
@@ -33,10 +33,10 @@ vagrantfile:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            vflsf_7buawrf4ppt0:
+            vflsf_r5naiqnqf8h2:
                 source: ./
                 target: /var/www
-                sync_type: nfs
+                sync_type: default
                 smb:
                     smb_host: ''
                     smb_username: ''
@@ -74,6 +74,13 @@ users_groups:
     install: '1'
     groups: {  }
     users: {  }
+locale:
+    install: '1'
+    settings:
+        default_locale: ''
+        locales:
+            - 'en_GB.UTF-8 UTF-8'
+            - 'en_US.UTF-8 UTF-8'
 firewall:
     install: '1'
     rules: {  }
@@ -88,16 +95,12 @@ nginx:
         proxy_buffers: '4 256k'
     upstreams: {  }
     vhosts:
-        nxv_xu52bzzbsgiv:
-            server_name: awesome.dev
-            server_aliases:
-                - www.awesome.dev
-            www_root: /var/www/awesome
+        nxv_xvr73oqvjv7e:
+            server_name: sages.local
+            www_root: /var/www/sages/web/
             listen_port: '80'
             index_files:
-                - index.html
-                - index.htm
-                - index.php
+                - app_dev.php
             client_max_body_size: 1m
             ssl: '0'
             ssl_cert: ''
@@ -108,29 +111,30 @@ nginx:
             rewrite_to_https: '1'
             spdy: '1'
             locations:
-                nxvl_sb9jv0cn70pv:
-                    location: /
-                    autoindex: off
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
+                nxvl_3i2q2tgdhaou:
+                    location: '@rewriteapp'
+                    autoindex: 'off'
                     fastcgi: ''
                     fastcgi_index: ''
                     fastcgi_split_path: ''
-                nxvl_7lui3s6irm29:
-                    location: '~ \.php$'
-                    autoindex: off
+                nxvl_29d250moji6x:
+                    location: /
+                    autoindex: 'off'
                     try_files:
                         - $uri
                         - $uri/
-                        - /index.php$is_args$args
+                        - '@rewriteapp'
+                    fastcgi: ''
+                    fastcgi_index: ''
+                    fastcgi_split_path: ''
+                nxvl_4vxbw5o3tm9a:
+                    location: ^/(app|app_dev)\.php(/|$)
+                    autoindex: 'off'
                     fastcgi: '127.0.0.1:9000'
-                    fastcgi_index: index.php
+                    fastcgi_index: app_dev.php
                     fastcgi_split_path: '^(.+\.php)(/.*)$'
                     fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
+                        - SCRIPT_FILENAME=$document_root$fastcgi_script_name
     proxies: {  }
 apache:
     install: '0'
@@ -145,7 +149,7 @@ apache:
         - proxy_fcgi
         - rewrite
     vhosts:
-        av_cfplja36btoa:
+        av_bjgc7yurz9oj:
             servername: awesome.dev
             serveraliases:
                 - www.awesome.dev
@@ -162,7 +166,7 @@ apache:
             ssl_protocol: ''
             ssl_cipher: ''
             directories:
-                avd_tm9yhfgzuq6u:
+                avd_y9d1rp42jtza:
                     path: /var/www/awesome
                     options:
                         - Indexes
@@ -174,7 +178,7 @@ apache:
                         - 'all granted'
                     custom_fragment: ''
                     files_match:
-                        avdfm_3da9n3qxd3sv:
+                        avdfm_utpylq9zb2vp:
                             path: \.php$
                             sethandler: 'proxy:fcgi://127.0.0.1:9000'
                             custom_fragment: ''
@@ -188,36 +192,47 @@ php:
         php:
             - cli
             - intl
-            - mcrypt
+            - curl
+            - fpm
+            - gd
+            - mysqlnd
+            - opcache
+            - sqlite
         pear: {  }
         pecl:
-            - pecl_http
+            - mongo
+            - APCu
+            - redis
     ini:
-        display_errors: On
+        display_errors: 'On'
         error_reporting: '-1'
         session.save_path: /var/lib/php/session
-        date.timezone: UTC
+        date.timezone: Europe/Warsaw
     fpm_ini:
         error_log: /var/log/php-fpm.log
     fpm_pools:
-        phpfp_2cr4xten8fub:
+        phpfp_046xmv5nztrf:
             ini:
                 prefix: www
                 listen: '127.0.0.1:9000'
                 security.limit_extensions: .php
-                user: www-user
-                group: www-data
+                user: vagrant
+                group: vagrant
     composer: '1'
     composer_home: ''
 xdebug:
-    install: '0'
+    install: '1'
     settings:
         xdebug.default_enable: '1'
-        xdebug.remote_autostart: '0'
         xdebug.remote_connect_back: '1'
         xdebug.remote_enable: '1'
         xdebug.remote_handler: dbgp
         xdebug.remote_port: '9000'
+        xdebug.remote_autostart: '1'
+        xdebug.remote_host: 10.0.2.2
+        xdebug.max_nesting_level: '1000'
+        xdebug.extended_info: '1'
+        xdebug.idekey: PHPSTORM
 blackfire:
     install: '0'
     settings:
@@ -248,8 +263,10 @@ python:
     packages: {  }
     versions: {  }
 nodejs:
-    install: '0'
-    npm_packages: {  }
+    install: '1'
+    npm_packages:
+        - bower
+        - uglifycss
 hhvm:
     install: '0'
     nightly: 0
@@ -262,26 +279,47 @@ hhvm:
         hhvm.log.use_log_file: '1'
         hhvm.log.file: /var/log/hhvm/error.log
     php_ini:
-        display_errors: On
+        display_errors: 'On'
         error_reporting: '-1'
         date.timezone: UTC
 mysql:
     install: '1'
     settings:
         version: '5.6'
+        root_password: root
+        override_options: {  }
+    adminer: 0
+    users:
+        mysqlnu_zmm745gfuew9:
+            name: sages
+            password: sages
+    databases:
+        mysqlnd_ltky7ef4rc8t:
+            name: sages
+            sql: ''
+    grants:
+        mysqlng_9mgy1lxye5rm:
+            user: sages
+            table: 'sages.*'
+            privileges:
+                - ALL
+mariadb:
+    install: '0'
+    settings:
+        version: '10.0'
         root_password: '123'
         override_options: {  }
     adminer: 0
     users:
-        mysqlnu_f4z18i3fyg72:
+        mariadbnu_7w73wfd2v23y:
             name: dbuser
             password: '123'
     databases:
-        mysqlnd_eragkh85u5jm:
+        mariadbnd_67os5eg24fws:
             name: dbname
             sql: ''
     grants:
-        mysqlng_3lorl8pen5o1:
+        mariadbng_a3a5rxaaz6pz:
             user: dbuser
             table: '*.*'
             privileges:
@@ -299,18 +337,22 @@ postgresql:
     grants: {  }
     adminer: 0
 mongodb:
-    install: '0'
+    install: '1'
     settings:
         auth: 1
         bind_ip: 127.0.0.1
         port: '27017'
-    databases: {  }
+    databases:
+        mongodbnuad_qzx9xktbh8s2:
+            name: sages
+            user: sages
+            password: sages
 redis:
-    install: '0'
+    install: '1'
     settings:
         conf_port: '6379'
 sqlite:
-    install: '0'
+    install: '1'
     adminer: 0
     databases: {  }
 mailcatcher:
@@ -334,7 +376,7 @@ beanstalkd:
         binlogsize: '10485760'
     beanstalk_console: 0
 rabbitmq:
-    install: '0'
+    install: '1'
     settings:
         port: '5672'
     users: {  }
