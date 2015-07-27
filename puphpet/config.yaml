@@ -34,9 +34,9 @@ vagrantfile:
                     - '--parser future'
         synced_folder:
             vflsf_r5naiqnqf8h2:
-                source: ./
-                target: /var/www
-                sync_type: default
+                source: ./sages/
+                target: /var/www/sages
+                sync_type: nfs
                 smb:
                     smb_host: ''
                     smb_username: ''
@@ -196,7 +196,6 @@ php:
             - fpm
             - gd
             - mysqlnd
-            - opcache
             - sqlite
         pear: {  }
         pecl:
