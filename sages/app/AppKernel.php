@@ -5,6 +5,15 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends Kernel
 {
+    protected $vagrant;
+
+    public function __construct($environment, $debug)
+    {
+        parent::__construct($environment, $debug);
+
+        $this->vagrant = (get_current_user() === 'vagrant');
+    }
+
     public function registerBundles()
     {
         $bundles = array(
@@ -33,4 +42,24 @@ class AppKernel extends Kernel
     {
         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
     }
+
+    public function getCacheDir()
+    {
+        if ($this->vagrant) {
+            return '/dev/shm/sages/cache/' .  $this->environment;
+        }
+
+        return parent::getCacheDir();
+    }
+
+    public function getLogDir()
+    {
+        if ($this->vagrant) {
+            return '/dev/shm/sages/logs/';
+        }
+
+        return parent::getLogDir();
+    }
+
+
 }
