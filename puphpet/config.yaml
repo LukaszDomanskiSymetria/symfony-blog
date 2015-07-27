@@ -36,7 +36,7 @@ vagrantfile:
             vflsf_r5naiqnqf8h2:
                 source: ./sages
                 target: /var/www/sages
-                sync_type: nfs
+                sync_type: default
                 smb:
                     smb_host: ''
                     smb_username: ''
