@@ -34,8 +34,8 @@ vagrantfile:
                     - '--parser future'
         synced_folder:
             vflsf_r5naiqnqf8h2:
-                source: ./
-                target: /var/www
+                source: ./sages
+                target: /var/www/sages
                 sync_type: nfs
                 smb:
                     smb_host: ''
@@ -50,8 +50,8 @@ vagrantfile:
                         - .vagrant/
                         - .git/
                     auto: 'true'
-                owner: www-data
-                group: www-data
+                owner: vagrant
+                group: vagrant
         usable_port_range:
             start: 10200
             stop: 10500
