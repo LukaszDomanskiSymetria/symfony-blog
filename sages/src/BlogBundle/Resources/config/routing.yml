@@ -3,7 +3,7 @@ x_blog_homepage:
     defaults: { _controller: XBlogBundle:Blog:index }
 
 x_blog_show_blog:
-    path:     /
+    path:     /{name}
     defaults: { _controller: XBlogBundle:Blog:show }
 
 x_blog_show_post:

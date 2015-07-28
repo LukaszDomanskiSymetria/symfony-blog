@@ -22,9 +22,14 @@ class BlogController extends Controller
         return new Response('<pre>'.print_r($blogs, true).'</pre>');
     }
 
-    public function showAction()
+    public function showAction($name)
     {
-        // listowanie postów dla bloga
+        $blog = $this->repository->find($name);
+        if (!$blog) {
+            throw $this->createNotFoundException();
+        }
+
+        return new Response('<pre>'.print_r($blog, true).'</pre>');
     }
 
     public function showPostAction()
