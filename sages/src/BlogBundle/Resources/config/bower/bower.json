@@ -1,0 +1,6 @@
+{
+    "name": "thekipper/sages",
+    "dependencies": {
+        "bootstrap": "latest"
+    }
+}
