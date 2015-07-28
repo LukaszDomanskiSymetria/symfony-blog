@@ -1,12 +1,6 @@
 <?php
-/**
- * This file is part of the sages package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
-namespace BlogBundle\Entity;
+namespace X\BlogBundle\Entity;
 
 use Symfony\Component\HttpFoundation\File\File;
 
