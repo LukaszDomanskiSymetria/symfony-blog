@@ -19,7 +19,9 @@ class BlogController extends Controller
     {
         $blogs = $this->repository->findAll();
 
-        return new Response('<pre>'.print_r($blogs, true).'</pre>');
+        return new Response($this->renderView('blog/index.html.twig', [
+            'blogs' => $blogs,
+        ]));
     }
 
     public function showAction($name)
@@ -29,7 +31,9 @@ class BlogController extends Controller
             throw $this->createNotFoundException();
         }
 
-        return new Response('<pre>'.print_r($blog, true).'</pre>');
+        return new Response($this->renderView('blog/show.html.twig', [
+            'blog' => $blog,
+        ]));
     }
 
     public function showPostAction()

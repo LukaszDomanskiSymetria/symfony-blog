@@ -1,13 +1,66 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{% block title %}XBlog{% endblock %}</title>
+
+        {% block stylesheets %}
+            {% stylesheets
+                '@XBlogBundle/Resources/public/components/bootstrap/dist/css/bootstrap.css'
+                '@XBlogBundle/Resources/public/components/bootstrap/dist/css/bootstrap-theme.css'
+                '@XBlogBundle/Resources/public/css/blog.css'
+            %}
+                <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endblock %}
+
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block menu %}
+            <div class="blog-masthead">
+                <div class="container">
+                    <nav class="blog-nav">
+                        <a class="blog-nav-item active" href="{{ path('x_blog_homepage') }}">Home</a>
+                    </nav>
+                </div>
+            </div>
+        {% endblock menu %}
+
+        {% block container %}
+            <div class="container">
+
+                {% block header %}
+                    <div class="blog-header">
+                        <h1 class="blog-title">
+                            {% block header_title %}X Blog{% endblock header_title %}
+                        </h1>
+                        <p class="lead blog-description">
+                            {% block header_description %}
+                                Multi-tenant blog.
+                            {% endblock header_description %}
+                        </p>
+                    </div>
+                {% endblock header %}
+
+                <div class="row">
+                    {% block content_layout %}
+                    {% endblock content_layout %}
+                </div>
+
+            </div>
+        {% endblock container %}
+
+        {% block javascripts %}
+            {% javascripts
+                "@XBlogBundle/Resources/public/components/jquery/dist/jquery.js"
+                "@bootstrap_js"
+            %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
     </body>
 </html>

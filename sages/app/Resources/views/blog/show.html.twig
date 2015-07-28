@@ -1,0 +1,16 @@
+{% extends 'blog/layout.html.twig' %}
+
+{% block header_title %}
+    {{ blog.title }}
+{% endblock header_title %}
+
+{% block header_description %}
+    {{ blog.description }}
+{% endblock header_description%}
+
+{% block content %}
+    {% for post in blog.posts %}
+    {% else %}
+        Brak postów.
+    {% endfor %}
+{% endblock content %}

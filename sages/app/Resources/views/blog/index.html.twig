@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block content_layout %}
+    {% embed "layout_without_sidebar.html.twig" %}
+        {% block content %}
+            <ul>
+                {% for blog in blogs %}
+                    <li>
+                        <a href="{{ path('x_blog_show_blog', {'name': blog.name}) }}">
+                            {{ blog.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endblock content %}
+    {% endembed %}
+{% endblock content_layout %}
