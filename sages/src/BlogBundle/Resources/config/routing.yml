@@ -1,3 +1,23 @@
 x_blog_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: XBlogBundle:Default:index }
+    path:     /
+    defaults: { _controller: XBlogBundle:Blog:index }
+
+x_blog_show_blog:
+    path:     /
+    defaults: { _controller: XBlogBundle:Blog:show }
+
+x_blog_show_post:
+    path:     /
+    defaults: { _controller: XBlogBundle:Blog:showPost }
+
+x_blog_edit:
+    path:     /
+    defaults: { _controller: XBlogBundle:Blog:edit }
+
+x_blog_add_post:
+    path:     /
+    defaults: { _controller: XBlogBundle:Blog:addPost }
+
+x_blog_add_comment:
+    path:     /
+    defaults: { _controller: XBlogBundle:Blog:addComment }

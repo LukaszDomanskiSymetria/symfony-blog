@@ -2,13 +2,24 @@
 
 namespace X\BlogBundle\Controller;
 
+use X\BlogBundle\Repository\Memory\InMemoryBlogRepository;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class BlogController extends Controller
 {
+    private $repository;
+
+    public function __construct()
+    {
+        $this->repository = new InMemoryBlogRepository();
+    }
+
     public function indexAction()
     {
-        // listowanie blogów
+        $blogs = $this->repository->findAll();
+
+        return new Response('<pre>'.print_r($blogs, true).'</pre>');
     }
 
     public function showAction()
@@ -26,12 +37,12 @@ class BlogController extends Controller
         // edycja bloga
     }
 
-    public function addPost()
+    public function addPostAction()
     {
         // dodawanie posta
     }
 
-    public function addComment()
+    public function addCommentAction()
     {
         // dodawanie komentarzy
     }
